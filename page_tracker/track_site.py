@@ -3,16 +3,16 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-import os
-import time
+from discord_webhook import DiscordWebhook, DiscordEmbed
 
 import os
-import logging
 import time
+import logging
 import filecmp
 
 URL_TO_MONITOR : str = "https://jexam.inf.tu-dresden.de/de.jexam.web.v5/spring/welcome"
-DELAY_TIME_SECONDS : int = 300
+PAYLOAD_URL = "https://discord.com/api/webhooks/1088891069783081053/E6GU7-6rp5tT-xY2vEtoNlRQtxaiUl_IXGKEKPZym4-Ad2tkFbx14P_6Q6aO4NWHlSMG"
+DELAY_TIME_SECONDS : int = 5
 
 class Page_Tracker():
 
@@ -32,13 +32,14 @@ class Page_Tracker():
 
     def return_new_exams(File1,File2):
         with open(File1,'r') as f:
-            prev = set(f.readlines())
+            old = set(f.readlines())
 
 
         with open(File2,'r') as f:
             new = set(f.readlines())
 
-        return list(new - prev)
+        return list(new - old)
+
 
     def page_crawler(self):
 
@@ -93,16 +94,19 @@ class Page_Tracker():
         while True:
             try:
                 if self.page_crawler():
-                    log.info("WEBPAGE WAS CHANGED.")
-                    self.return_new_exams("./page_tracker/previous_exam_results.txt", "./page_tracker/new_exam_results.txt")
+                    log.info("Webpage has changed.")
+                    results = self.return_new_exams("./page_tracker/previous_exam_results.txt", "./page_tracker/new_exam_results.txt")
 
-
+                    for index in range(0, len(results)):
+                        webhook = DiscordWebhook(url=PAYLOAD_URL)
+                        embed = DiscordEmbed(title=f' <a:bpG:890945228679299082> Prüfungserbegnis {results[index]} ist nun verfügbar.', color=2158112)
+                        webhook.add_embed(embed)
+                        webhook.execute()
                 else:
-                    log.info("Webpage was not changed.")
+                    log.info("Webpage has not changed.")
             except:
                 log.info("Error checking website.")
             time.sleep(DELAY_TIME_SECONDS)
-
 
 if __name__ == "__main__":
     tracker = Page_Tracker()

@@ -1,4 +1,3 @@
-INF-B-690/INF-D-330 - Theoretische Informatik und Logik
 INF-B-290/INF-D-330 - Theoretische Informatik und Logik
 INF-B-260/INF-D-310 Informations- und Kodierungstheorie
 INF-B-3A0/INF-D-430 Systemorientierte Informatik/ Hardware Software-Codesign

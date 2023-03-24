@@ -12,7 +12,7 @@ import filecmp
 
 URL_TO_MONITOR : str = "https://jexam.inf.tu-dresden.de/de.jexam.web.v5/spring/welcome"
 PAYLOAD_URL = "https://discord.com/api/webhooks/1088891069783081053/E6GU7-6rp5tT-xY2vEtoNlRQtxaiUl_IXGKEKPZym4-Ad2tkFbx14P_6Q6aO4NWHlSMG"
-DELAY_TIME_SECONDS : int = 5
+DELAY_TIME_SECONDS : int = 300
 
 class Page_Tracker():
 

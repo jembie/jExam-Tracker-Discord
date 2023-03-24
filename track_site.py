@@ -1,49 +1,77 @@
-import requests
-from bs4 import BeautifulSoup
+from selenium import webdriver 
+from selenium.webdriver import Chrome 
+from selenium.webdriver.chrome.service import Service 
+from selenium.webdriver.common.by import By 
+from webdriver_manager.chrome import ChromeDriverManager
+import os
+import time
+
 import os
 import logging
 import time
+import filecmp
 
-URL_TO_MONITOR : str = "https://jexam.inf.tu-dresden.de/atom.xml"
+URL_TO_MONITOR : str = "https://jexam.inf.tu-dresden.de/de.jexam.web.v5/spring/welcome"
 DELAY_TIME_SECONDS : int = 10
 
-def process_html(string):
-    soup = BeautifulSoup(string, features="lxml")
+def content_comparison():
+    f1 = './previous_exam_results.txt'
+    f2 = './new_exam_results.txt'
+    if not os.path.exists(f2):
+        return False
+    return filecmp.cmp(f1, f2)
 
-    # make the html look good
-    soup.prettify()
 
-    # remove script tags
-    for s in soup.select('script'):
-        s.extract()
+def filter_for_exams(content:str, file_name:str):
+    with open(file_name, 'w') as f:
+        for line in open(content):
+            if 'INF' in line or 'PLB' in line:
+                f.write(line)
 
-    # remove meta tags 
-    for s in soup.select('meta'):
-        s.extract()
-    
-    # convert to a string, remove '\r', and return
-    return str(soup).replace('\r', '')
 
-def webpage_was_changed():
-    """Returns true if the webpage was changed, otherwise false."""
-    response = requests.get(URL_TO_MONITOR)
+def page_crawler():
 
-    # create the previous_content.txt if it doesn't exist
+### Configurations
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    options.page_load_strategy = 'none'
+
+    # returns the path web driver downloaded
+    chrome_path = ChromeDriverManager().install()
+    chrome_service = Service(chrome_path)
+    # pass the defined options and service objects to initialize the web driver
+    driver = Chrome(options=options, service=chrome_service)
+    driver.implicitly_wait(5)
+
+    driver.get(URL_TO_MONITOR)
+    time.sleep(2)
+###
+    page_content = driver.find_element(By.CSS_SELECTOR, "div[class*='news-wrapper']")
+
+    # check if the file exists, ran on the first iteration
     if not os.path.exists("previous_content.txt"):
         open("previous_content.txt", 'w+').close()
-    
-    filehandle = open("previous_content.txt", 'r')
-    previous_response_html = filehandle.read()
+
+    filehandle = open('previous_content.txt', 'w')
+    filehandle.write(page_content.text)
     filehandle.close()
 
-    processed_response_html = process_html(response.content)
+    filter_for_exams('previous_content.txt', 'previous_exam_results.txt')
 
-    if processed_response_html == previous_response_html:
+    if not os.path.exists('new_exam_results.txt'):
+        open('new_exam_results.txt', 'w+').close()
+
+    if content_comparison() is True:
         return False
     else:
-        filehandle = open("previous_content.txt", 'w')
-        filehandle.write(processed_response_html)
-        filehandle.close()
+        with open('previous_content.txt','w') as f:
+            f.write(page_content.text)
+        filter_for_exams('previous_content.txt', 'previous_exam_results.txt')
+        with open('previous_exam_results.txt','r') as firstfile, open('new_exam_results.txt','a') as secondfile:
+            for line in firstfile:
+                secondfile.write(line)
+            firstfile.close()
+            secondfile.close()
         return True
 
 
@@ -53,7 +81,7 @@ def main():
     log.info("Running Website Monitor")
     while True:
         try:
-            if webpage_was_changed():
+            if page_crawler():
                 log.info("WEBPAGE WAS CHANGED.")
             else:
                 log.info("Webpage was not changed.")

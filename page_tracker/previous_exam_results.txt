@@ -1,0 +1,17 @@
+INF-B-290/INF-D-330 - Theoretische Informatik und Logik
+INF-B-260/INF-D-310 Informations- und Kodierungstheorie
+INF-B-3A0/INF-D-430 Systemorientierte Informatik/ Hardware Software-Codesign
+INF-B-420 Einführung in die Computergraphik
+PLB 510-540 Rechnernetzpraxis
+INF-B-120-2/INF-D-120-2 Mathematische Methoden 2
+INF-B-440 Grundlagen der Gestaltung
+INF-B-450 Einführung in die Mediengestaltung
+INF-B-120-1/INF-D-120-1 Mathematische Methoden 1
+INF-B-310/INF-D-240 Sotwaretechnologie
+PLB 510-540 High Performance Computing
+INF-B-370-1/INF-D-270-1 Datenbanken
+INF-B-210/INF-D-210 Algorithmen und Datenstrukturen
+INF-B-110-1/INF-D-110-1 Einführung in die Mathematik 1
+INF-B-370-2/INF-D-370-2 Rechnernetze
+PLB 510-540 Distributed Systems
+INF-B-460 Medien und Medienströme

@@ -1,0 +1,30 @@
+News
+Derzeit eingepflegte Prüfungsergebnisse WS 2022/2023
+INF-B-290/INF-D-330 - Theoretische Informatik und Logik
+INF-B-260/INF-D-310 Informations- und Kodierungstheorie
+INF-B-3A0/INF-D-430 Systemorientierte Informatik/ Hardware Software-Codesign
+INF-B-420 Einführung in die Computergraphik
+PLB 510-540 Rechnernetzpraxis
+INF-B-120-2/INF-D-120-2 Mathematische Methoden 2
+INF-B-440 Grundlagen der Gestaltung
+INF-B-450 Einführung in die Mediengestaltung
+INF-B-120-1/INF-D-120-1 Mathematische Methoden 1
+INF-B-310/INF-D-240 Sotwaretechnologie
+PLB 510-540 High Performance Computing
+INF-B-370-1/INF-D-270-1 Datenbanken
+INF-B-210/INF-D-210 Algorithmen und Datenstrukturen
+INF-B-110-1/INF-D-110-1 Einführung in die Mathematik 1
+INF-B-370-2/INF-D-370-2 Rechnernetze
+PLB 510-540 Distributed Systems
+INF-B-460 Medien und Medienströme
+  Die Modulberechnung für die Prüfungen des WiSe 2022/2023 wurden noch nicht durchgeführt.
+  Was ist bei der Modulberechnung zu beachten:¶
+Es wird eine Modulnote berechnet, wenn ein Modulteil angetreten wurde.
+Ein Modul ist zumeist (Ausnahme ist hier bsw. Mathe) bestanden, wenn das arithmetische Mittel der Teilnoten <= 4 ist. Dabei wird eine nicht angetretene Prüfung zunächst mit 5 gewertet, d.h. wenn Datenbanken mit 3,0 bestanden wurde und Rechnernetze noch nicht angetreten wurde, das Modul mit 4,0 gewertet wird und als bestanden gilt.
+Eine Modulnote ist temporär. Das bedeutet, wenn Rechnernetze im späteren Semester mit 2,0 abgelegt wird, die Modulnote neu berechnet wird und dann 2,5 beträgt. Sie sollten also immer jede Teilprüfung antreten, auch wenn ein Modul bereits bestanden ist.
+Die Modulnoten werden neu berechnet, wenn neue Ergebnisse eingetragen werden.
+Haben sie keine Panik, wenn nun ein noch nicht fertiges Modul mit 5,0 bewertet wird. Durch neue Ergebnisse wird sich dieses ändern.
+Downtime am 11.12.2022 ab ca. 18 Uhr
+Aufgrund von Wartungsarbeiten wird jExam am 11.12.2022 ab 18 Uhr bis spätestens 21 Uhr zeitweise nicht erreichbar sein. Wir bitten entstehende Unannehmlichkeiten zu entschuldigen.
+Edit: done (19:22)
+-- jExam Team

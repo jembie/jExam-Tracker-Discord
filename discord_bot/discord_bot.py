@@ -32,3 +32,6 @@ def run_discord_bot():
     #     await ctx.send(embed=embed)
 
     client.run(TOKEN)
+
+if __name__ == "__main__":
+    run_discord_bot()

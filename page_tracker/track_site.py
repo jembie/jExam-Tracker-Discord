@@ -28,7 +28,7 @@ class Page_Tracker:
         with open(File2, "r") as f:
             new = set(f.readlines())
 
-        return list(new - old)
+        return list(new.intersection(old))
 
     def write_content_in_previous(self, content):
         if not os.path.exists("previous_exams.txt"):
@@ -84,17 +84,18 @@ class Page_Tracker:
                 if self.page_crawler():
                     log.info("Webpage has changed.")
                     results = self.return_new_exams(
-                        "./page_tracker/previous_exams.txt",
-                        "./page_tracker/new_exams.txt",
+                        "previous_exams.txt",
+                        "new_exams.txt",
                     )
 
-                    for result in results:
+                    for result in reversed(results):
                         webhook = DiscordWebhook(url=PAYLOAD_URL)
                         embed = DiscordEmbed(
                             title=f" <a:bpG:890945228679299082> Prüfungserbegnis {result} ist nun verfügbar.",
                             color=2158112,
                         )
                         webhook.add_embed(embed)
+                        time.sleep(1)
                         webhook.execute()
                 else:
                     log.info("Webpage has not changed.")

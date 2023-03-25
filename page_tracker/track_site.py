@@ -16,18 +16,10 @@ DELAY_TIME_SECONDS: int = 20
 
 
 class Page_Tracker:
-    def content_comparison(self):
-        f1 = "./previous_exam_results.txt"
-        f2 = "./new_exam_results.txt"
-        if not os.path.exists(f2):
+    def content_comparison(self, previous, new):
+        if not os.path.exists(new):
             return False
-        return filecmp.cmp(f1, f2)
-
-    def filter_for_exams(self, content: str, file_name: str):
-        with open(file_name, "w") as f:
-            for line in open(content):
-                if "INF" in line or "PLB" in line:
-                    f.write(line)
+        return filecmp.cmp(previous, new)
 
     def return_new_exams(self, File1, File2):
         with open(File1, "r") as f:
@@ -38,6 +30,17 @@ class Page_Tracker:
 
         return list(new - old)
 
+    def write_content_in_previous(self, content):
+        if not os.path.exists("previous_exams.txt"):
+            open("previous_exams.txt", "w+").close()
+
+        filehandle = open("previous_exams.txt", "w")
+        filehandle.write(content)
+        filehandle.close()
+
+        if not os.path.exists("new_exams.txt"):
+            open("new_exams.txt", "w+").close()
+
     def page_crawler(self):
 
         ### Configurations
@@ -45,41 +48,28 @@ class Page_Tracker:
         options.add_argument("--headless")
         options.page_load_strategy = "none"
 
-        # returns the path web driver downloaded
-        chrome_path = ChromeDriverManager().install()
+        # # returns the path web driver downloaded
+        chrome_path = '/user/bin/chromedriver'
         chrome_service = Service(chrome_path)
-        # pass the defined options and service objects to initialize the web driver
-        driver = Chrome(options=options, service=chrome_service)
-        driver.implicitly_wait(5)
+        # # pass the defined options and service objects to initialize the web driver
+        driver = webdriver.Chrome(options=options, service=chrome_service)
+        driver.implicitly_wait(2)
 
         driver.get(URL_TO_MONITOR)
         time.sleep(2)
 
         page_content = driver.find_element(
-            By.CSS_SELECTOR, "div[class*='news-wrapper']"
+            By.TAG_NAME, "ul"
         )
 
         # check if the file exists, ran on the first iteration
-        if not os.path.exists("previous_content.txt"):
-            open("previous_content.txt", "w+").close()
+        self.write_content_in_previous(page_content.text)
 
-        filehandle = open("previous_content.txt", "w")
-        filehandle.write(page_content.text)
-        filehandle.close()
-
-        self.filter_for_exams("previous_content.txt", "previous_exam_results.txt")
-
-        if not os.path.exists("new_exam_results.txt"):
-            open("new_exam_results.txt", "w+").close()
-
-        if self.content_comparison():
+        if self.content_comparison("./previous_exams.txt", "./new_exams.txt"):
             return False
 
-        with open("previous_content.txt", "w") as f:
-            f.write(page_content.text)
-        self.filter_for_exams("previous_content.txt", "previous_exam_results.txt")
-        with open("previous_exam_results.txt", "r") as firstfile, open(
-            "new_exam_results.txt", "a"
+        with open("previous_exams.txt", "r") as firstfile, open(
+            "new_exams.txt", "a"
         ) as secondfile:
             for line in firstfile:
                 secondfile.write(line)
@@ -96,8 +86,8 @@ class Page_Tracker:
                 if self.page_crawler():
                     log.info("Webpage has changed.")
                     results = self.return_new_exams(
-                        "./page_tracker/previous_exam_results.txt",
-                        "./page_tracker/new_exam_results.txt",
+                        "./page_tracker/previous_exams.txt",
+                        "./page_tracker/new_exams.txt",
                     )
 
                     for result in results:

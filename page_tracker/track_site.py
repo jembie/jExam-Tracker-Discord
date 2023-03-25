@@ -49,7 +49,7 @@ class Page_Tracker:
         options.page_load_strategy = "none"
 
         # # returns the path web driver downloaded
-        chrome_path = '/user/bin/chromedriver'
+        chrome_path = "/user/bin/chromedriver"
         chrome_service = Service(chrome_path)
         # # pass the defined options and service objects to initialize the web driver
         driver = webdriver.Chrome(options=options, service=chrome_service)
@@ -58,9 +58,7 @@ class Page_Tracker:
         driver.get(URL_TO_MONITOR)
         time.sleep(2)
 
-        page_content = driver.find_element(
-            By.TAG_NAME, "ul"
-        )
+        page_content = driver.find_element(By.TAG_NAME, "ul")
 
         # check if the file exists, ran on the first iteration
         self.write_content_in_previous(page_content.text)

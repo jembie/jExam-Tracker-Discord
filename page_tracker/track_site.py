@@ -9,9 +9,12 @@ import os
 import time
 import logging
 import filecmp
+from dotenv import load_dotenv
+
+load_dotenv()
 
 URL_TO_MONITOR: str = "https://jexam.inf.tu-dresden.de/de.jexam.web.v5/spring/welcome"
-PAYLOAD_URL: str = "https://discord.com/api/webhooks/1088891069783081053/E6GU7-6rp5tT-xY2vEtoNlRQtxaiUl_IXGKEKPZym4-Ad2tkFbx14P_6Q6aO4NWHlSMG"
+PAYLOAD_URL: str = os.getenv("PAYLOARD_URL")
 DELAY_TIME_SECONDS: int = 20
 
 

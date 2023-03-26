@@ -49,10 +49,10 @@ class Page_Tracker:
         options.add_argument("--headless")
         options.page_load_strategy = "none"
 
-        # # returns the path web driver downloaded
+        # returns the path web driver downloaded
         chrome_path = "/user/bin/chromedriver"
         chrome_service = Service(chrome_path)
-        # # pass the defined options and service objects to initialize the web driver
+        # pass the defined options and service objects to initialize the web driver
         driver = webdriver.Chrome(options=options, service=chrome_service)
         driver.implicitly_wait(2)
 
@@ -60,8 +60,6 @@ class Page_Tracker:
         time.sleep(2)
 
         page_content = driver.find_element(By.TAG_NAME, "ul")
-
-        # check if the file exists, ran on the first iteration
         self.write_content_in_previous(page_content.text)
 
         if self.content_comparison("./previous_exams.txt", "./new_exams.txt"):

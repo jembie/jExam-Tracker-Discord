@@ -88,7 +88,7 @@ class Page_Tracker:
                         "new_exams.txt",
                     )
 
-                    for result in reversed(results):
+                    for result in results:
                         webhook = DiscordWebhook(url=PAYLOAD_URL)
                         embed = DiscordEmbed(
                             title=f" <a:bpG:890945228679299082> Prüfungserbegnis {result} ist nun verfügbar.",

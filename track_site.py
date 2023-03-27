@@ -132,7 +132,7 @@ class Page_Tracker:
         with open(new, "r") as f:
             new = f.read().split("\n")
 
-        return filter_new_entries(one=old, other=new)  # new \ old
+        return filter_new_entries(one=old, other=new)[::-1]  # new \ old
 
     def send_webhook_msg(self) -> None:
         """

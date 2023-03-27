@@ -48,29 +48,6 @@ def report_new_result(result: str, url: str) -> None:
 class Page_Tracker:
     """
     A class for monitoring a specific webpage and sending notifications when updates occur.
-
-    Methods:
-    --------
-    content_comparison(previous: str, new: str) -> bool:
-        Compares the content of two files.
-
-    write_content_in_new(content: str):
-        Writes the scraped content into `new_exams.txt`.
-
-    page_crawler() -> bool:
-        Scrapes the webpage and checks for updates.
-
-    return_new_exams(previous: str, new: str) -> set:
-        Filters for any new exam results.
-
-    send_webhook_msg():
-        Sends a webhook message with new exam results.
-
-    overwrite_previous_content():
-        Overwrites the content of the previous exams file with the new content.
-
-    run():
-        Runs the website monitor continuously.
     """
 
     def content_comparison(self, previous: str, new: str) -> bool:
@@ -157,7 +134,7 @@ class Page_Tracker:
 
         return filter_new_entries(one=old, other=new)  # new \ old
 
-    def send_webhook_msg(self):
+    def send_webhook_msg(self) -> None:
         """
         Sends a webhook message with new exam results.
         """
@@ -171,13 +148,13 @@ class Page_Tracker:
         for result in results:
             report_new_result(result, url=PAYLOAD_URL)
 
-    def overwrite_previous_content(self):
+    def overwrite_previous_content(self) ->  None:
         """
         Overwrites the content of the previous exams file with the new content.
         """
         shutil.copy("new_exams.txt", "previous_exams.txt")
 
-    def run(self):
+    def run(self) -> None:
         """
         Runs the website monitor continuously.
         """
@@ -201,6 +178,5 @@ class Page_Tracker:
 
 
 if __name__ == "__main__":
-    load_dotenv()
     tracker = Page_Tracker()
     tracker.run()

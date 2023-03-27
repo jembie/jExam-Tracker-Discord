@@ -30,6 +30,18 @@ def filter_new_entries(one: t.Iterable[str], other: t.Iterable[str]) -> list[str
     return [line for line in other if line not in one_set]
 
 
+def report_new_result(result: str, url: str) -> None:
+    """Report new exam result via discord webhook"""
+    webhook = DiscordWebhook(url=url)
+    embed = DiscordEmbed(
+        title=f" <a:bpG:890945228679299082> Prüfungsergebnis {result} ist nun verfügbar.",
+        color=2158112,
+    )
+    webhook.add_embed(embed)
+    time.sleep(1)
+    webhook.execute()
+
+
 class Page_Tracker:
     """
     A class for monitoring a specific webpage and sending notifications when updates occur.
@@ -150,14 +162,7 @@ class Page_Tracker:
             "new_exams.txt",
         )
         for result in results:
-            webhook = DiscordWebhook(url=PAYLOAD_URL)
-            embed = DiscordEmbed(
-                title=f" <a:bpG:890945228679299082> Prüfungsergebnis {result} ist nun verfügbar.",
-                color=2158112,
-            )
-            webhook.add_embed(embed)
-            time.sleep(1)
-            webhook.execute()
+            report_new_result(result, url=PAYLOAD_URL)
 
     def overwrite_previous_content(self):
         """

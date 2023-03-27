@@ -1,3 +1,4 @@
+import shutil
 import typing as t
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -162,12 +163,7 @@ class Page_Tracker:
         """
         Overwrites the content of the previous exams file with the new content.
         """
-
-        with open("new_exams.txt", "r") as new, open(
-            "previous_exams.txt", "w+"
-        ) as previous:
-            for line in new:
-                previous.write(line)
+        shutil.copy("new_exams.txt", "previous_exams.txt")
 
     def run(self):
         """

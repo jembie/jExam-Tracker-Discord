@@ -1,3 +1,5 @@
+import typing as t
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -14,6 +16,29 @@ load_dotenv()
 URL_TO_MONITOR: str = "https://jexam.inf.tu-dresden.de/de.jexam.web.v5/spring/welcome"
 PAYLOAD_URL: str | None = os.getenv("PAYLOAD_URL")
 DELAY_TIME_SECONDS: int = 20
+
+
+def filter_new_entries(one: t.Iterable[str], other: t.Iterable[str]) -> list[str]:
+    """Return elements in `other` which did not appear in `where`.
+
+    Moral equivalent of `set(other) - set(one)`, but
+    1. does not kill duplicates and
+    2. is stable with respect to the ordering of `other`.
+    """
+    one_set = set(one)
+    return [line for line in other if line not in one_set]
+
+
+# TODO move to `test.py` to not interfere with main program
+@pytest.mark.parametrize("new_entries, expected", [
+    (["a", "b", "d", "c"], ["d"]),
+    (["a", "b", "d"], ["d"]),  # c is missing, but it doesn't matter
+    (["new1", "a", "b", "new2", "c", "d"], ["new1", "new2", "d"]),
+    (["new1", "a", "d", "b", "new2", "c", "d"], ["new1", "d", "new2", "d"]),
+])
+def test_new_filter(new_entries, expected):
+    old_entries = ["a", "b", "c"]
+    assert filter_new_entries(old_entries, new_entries) == expected
 
 
 class Page_Tracker:
@@ -106,7 +131,7 @@ class Page_Tracker:
 
         return not self.content_comparison("previous_exams.txt", "new_exams.txt")
 
-    def return_new_exams(self, previous: str, new: str) -> set[str]:
+    def return_new_exams(self, previous: str, new: str) -> list[str]:
         """
         This method filters for any new exam results.
 
@@ -119,12 +144,12 @@ class Page_Tracker:
         """
 
         with open(previous, "r") as f:
-            old = set(f.read().split("\n"))
+            old = f.read().split("\n")
 
         with open(new, "r") as f:
-            new = set(f.read().split("\n"))
+            new = f.read().split("\n")
 
-        return new.difference(old)  # new \ old
+        return filter_new_entries(one=old, other=new)  # new \ old
 
     def send_webhook_msg(self):
         """

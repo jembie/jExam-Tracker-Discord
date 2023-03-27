@@ -1,5 +1,4 @@
 import typing as t
-import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -27,18 +26,6 @@ def filter_new_entries(one: t.Iterable[str], other: t.Iterable[str]) -> list[str
     """
     one_set = set(one)
     return [line for line in other if line not in one_set]
-
-
-# TODO move to `test.py` to not interfere with main program
-@pytest.mark.parametrize("new_entries, expected", [
-    (["a", "b", "d", "c"], ["d"]),
-    (["a", "b", "d"], ["d"]),  # c is missing, but it doesn't matter
-    (["new1", "a", "b", "new2", "c", "d"], ["new1", "new2", "d"]),
-    (["new1", "a", "d", "b", "new2", "c", "d"], ["new1", "d", "new2", "d"]),
-])
-def test_new_filter(new_entries, expected):
-    old_entries = ["a", "b", "c"]
-    assert filter_new_entries(old_entries, new_entries) == expected
 
 
 class Page_Tracker:

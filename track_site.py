@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 URL_TO_MONITOR: str = "https://jexam.inf.tu-dresden.de/de.jexam.web.v5/spring/welcome"
-PAYLOAD_URL: str = os.getenv("PAYLOAD_URL")
+PAYLOAD_URL: str | None = os.getenv("PAYLOAD_URL")
 DELAY_TIME_SECONDS: int = 20
 
 
@@ -44,13 +44,13 @@ class Page_Tracker:
         Runs the website monitor continuously.
     """
 
-    def content_comparison(self, previous, new) -> bool:
+    def content_comparison(self, previous: str, new: str) -> bool:
         """
         Compares the content of two files.
 
         Args:
-            previous (str): The path of the file with previous content of the web page.
-            new (str): The path of the file with the updated content of the web page.
+            previous: The path of the file with previous content of the web page.
+            new: The path of the file with the updated content of the web page.
 
         Returns:
             bool: A boolean indicating whether the two files have identical content.
@@ -58,12 +58,12 @@ class Page_Tracker:
 
         return filecmp.cmp(previous, new)
 
-    def write_content_in_new(self, content):
+    def write_content_in_new(self, content: str) -> None:
         """
         Writes the scraped content into`new_exams.txt`.
 
         Args:
-            content (str): The content to be written to the file.
+            content: The content to be written to the file.
         """
 
         with open("new_exams.txt", "w+") as new:
@@ -106,7 +106,7 @@ class Page_Tracker:
 
         return not self.content_comparison("previous_exams.txt", "new_exams.txt")
 
-    def return_new_exams(self, previous, new) -> set:
+    def return_new_exams(self, previous: str, new: str) -> set[str]:
         """
         This method filters for any new exam results.
 

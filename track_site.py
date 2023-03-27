@@ -107,7 +107,8 @@ class Page_Tracker:
         page_content = driver.find_element(By.TAG_NAME, "ul")
 
         if not os.path.exists("previous_exams.txt"):
-            open("previous_exams.txt", "w+").close()
+            with open("previous_exams.txt", "w+"):
+                pass
 
         if not os.path.exists("new_exams.txt"):
             with open("new_exams.txt", "w+") as new:

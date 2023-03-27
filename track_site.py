@@ -14,6 +14,7 @@ load_dotenv()
 
 URL_TO_MONITOR: str = "https://jexam.inf.tu-dresden.de/de.jexam.web.v5/spring/welcome"
 PAYLOAD_URL: str | None = os.getenv("PAYLOAD_URL")
+CHROME_PATH: str = os.getenv("CHROME_PATH", "/user/bin/chromedriver")
 DELAY_TIME_SECONDS: int = 20
 
 
@@ -94,9 +95,8 @@ class Page_Tracker:
         options.add_argument("--headless")
         options.page_load_strategy = "none"
 
-        # path where webdriver is downlaoded
-        chrome_path = "/user/bin/chromedriver"
-        chrome_service = Service(chrome_path)
+        # returns the path web driver downloaded
+        chrome_service = Service(CHROME_PATH)
         # pass the defined options and service objects to initialize the web driver
         driver = webdriver.Chrome(options=options, service=chrome_service)
         driver.implicitly_wait(2)

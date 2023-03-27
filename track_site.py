@@ -187,8 +187,8 @@ class Page_Tracker:
 
                 else:
                     log.info("Webpage has not changed.")
-            except:
-                log.info("Error checking website.")
+            except Exception as e:
+                log.info("Error checking website: %r", e)
             time.sleep(DELAY_TIME_SECONDS)
 
 

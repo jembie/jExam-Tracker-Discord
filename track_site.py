@@ -19,6 +19,9 @@ CHROME_PATH: str = os.getenv("CHROME_PATH", "/user/bin/chromedriver")
 DELAY_TIME_SECONDS: int = 20
 
 
+log = logging.getLogger(__name__)
+
+
 def filter_new_entries(one: t.Iterable[str], other: t.Iterable[str]) -> list[str]:
     """Return elements in `other` which did not appear in `where`.
 
@@ -104,6 +107,7 @@ class Page_Tracker:
         """
 
         ### Configurations
+        log.debug("Setting up chrome driver %r", CHROME_PATH)
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
         options.page_load_strategy = "none"
@@ -114,6 +118,7 @@ class Page_Tracker:
         driver = webdriver.Chrome(options=options, service=chrome_service)
         driver.implicitly_wait(2)
 
+        log.debug("Fetching url %r", URL_TO_MONITOR)
         driver.get(URL_TO_MONITOR)
         time.sleep(2)
 
@@ -161,6 +166,8 @@ class Page_Tracker:
             "previous_exams.txt",
             "new_exams.txt",
         )
+        log.info("Found %d new results", len(results))
+        log.debug("new results:\n%s", "\n".join(f"    {r}" for r in results))
         for result in results:
             report_new_result(result, url=PAYLOAD_URL)
 
@@ -174,21 +181,20 @@ class Page_Tracker:
         """
         Runs the website monitor continuously.
         """
-
-        log = logging.getLogger(__name__)
         logging.basicConfig(
             level=os.environ.get("LOGLEVEL", "INFO"), format="%(asctime)s %(message)s"
         )
-        log.info("Running Website Monitor")
+        log.info("Starting up Website Monitor")
         while True:
             try:
+                log.info("Checking Webpage...")
                 if self.page_crawler():
-                    log.info("Webpage has changed.")
+                    log.info("...Webpage has changed!")
                     self.send_webhook_msg()
                     self.overwrite_previous_content()
 
                 else:
-                    log.info("Webpage has not changed.")
+                    log.info("...Webpage has not changed.")
             except Exception as e:
                 log.info("Error checking website: %r", e)
             time.sleep(DELAY_TIME_SECONDS)

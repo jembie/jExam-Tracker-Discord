@@ -1,14 +1,14 @@
 import shutil
 import typing as t
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from discord_webhook import DiscordWebhook, DiscordEmbed
-
 import os
 import time
 import logging
 import filecmp
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from discord_webhook import DiscordWebhook, DiscordEmbed
 from dotenv import load_dotenv
 
 load_dotenv()

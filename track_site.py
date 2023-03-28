@@ -99,7 +99,7 @@ class Page_Tracker:
         driver.get(URL_TO_MONITOR)
         time.sleep(2)
 
-        page_content = driver.find_element(By.TAG_NAME, "ul")
+        page_content = driver.find_element(By.ID, "news-wrapper").find_element(By.TAG_NAME, 'ul')
 
         if not os.path.exists("previous_exams.txt"):
             with open("previous_exams.txt", "w+"):

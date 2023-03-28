@@ -11,7 +11,7 @@ This script monitors the jExam webpage for changes and sends notifications via D
 
 ## Installation
 1. Clone the repository.
-2. Install the required packages using `pip install -r requirements.txt` (Bonus: use `pip install pytest` to run the [test.py](test.py) file)
+2. Install the required packages using `pip install -r requirements.txt` 
 3. Create a `.env` file and add the following contents:
 
 ```env

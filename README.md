@@ -20,3 +20,7 @@ CHROME_PATH=<YOUR PATH TO CHROMEDRIVER> #Default for project is set to "/user/bi
 ```
 
 4. Run the script using `python track_site.py`
+
+
+### Credits
+Special thanks to [Lukas Juhrich](https://github.com/lukasjuhrich) for all the help!

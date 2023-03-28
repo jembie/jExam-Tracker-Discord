@@ -99,7 +99,9 @@ class Page_Tracker:
         driver.get(URL_TO_MONITOR)
         time.sleep(2)
 
-        page_content = driver.find_element(By.ID, "news-wrapper").find_element(By.TAG_NAME, 'ul')
+        page_content = driver.find_element(By.ID, "news-wrapper").find_element(
+            By.TAG_NAME, "ul"
+        )
 
         if not os.path.exists("previous_exams.txt"):
             with open("previous_exams.txt", "w+"):
@@ -148,7 +150,7 @@ class Page_Tracker:
         for result in results:
             report_new_result(result, url=PAYLOAD_URL)
 
-    def overwrite_previous_content(self) ->  None:
+    def overwrite_previous_content(self) -> None:
         """
         Overwrites the content of the previous exams file with the new content.
         """

@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 
 def filter_new_entries(one: t.Iterable[str], other: t.Iterable[str]) -> list[str]:
-    """Return elements in `other` which did not appear in `where`.
+    """Return elements in `other` which did not appear in `one`.
 
     Moral equivalent of `set(other) - set(one)`, but
     1. does not kill duplicates and
